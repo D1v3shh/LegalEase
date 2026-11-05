@@ -100,7 +100,9 @@ function Dashboard() {
                   <div className="flex shrink-0 items-center gap-3">
                     <StatusBadge
                       status={
-                        doc.status as "complete" | "processing" | "failed"
+                        doc.status === "complete" || doc.status === "failed"
+                          ? doc.status
+                          : "processing"
                       }
                     />
                     <span aria-hidden="true" className="text-muted-foreground">
