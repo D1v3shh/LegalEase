@@ -1,0 +1,132 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@theme inline {
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--ring);
+
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-rule: var(--rule);
+  --color-highlighter: var(--highlighter);
+  --color-highlighter-dim: var(--highlighter-dim);
+  --color-flag: var(--flag);
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --text-2xs: 0.75rem;
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.25rem;
+  --text-lg: 1.625rem;
+  --text-xl: 2.125rem;
+  --text-2xl: 2.875rem;
+
+  --shadow-panel: 0 1px 2px color-mix(in oklab, var(--ink) 8%, transparent);
+}
+
+:root {
+  --radius: 6px;
+  --ink: oklch(0.284 0.056 272.1);
+  --paper: oklch(0.959 0.006 106.4);
+  --paper-raised: oklch(1 0 0);
+  --rule: oklch(0.876 0.008 106.4);
+  --highlighter: oklch(0.887 0.163 110.2);
+  --highlighter-dim: oklch(0.962 0.06 110.7);
+  --flag: oklch(0.503 0.106 33.5);
+  --muted-ink: oklch(0.551 0.021 264.5);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: oklch(0.94 0.006 106.4);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.94 0.006 106.4);
+  --muted-foreground: var(--muted-ink);
+  --accent: var(--highlighter-dim);
+  --accent-foreground: var(--ink);
+  --destructive: var(--flag);
+  --destructive-foreground: oklch(1 0 0);
+  --border: var(--rule);
+  --ring: var(--highlighter);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-display);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--highlighter);
+    outline-offset: 2px;
+  }
+}
+
+@utility measure {
+  max-width: 68ch;
+}
+
+@utility connector-draw {
+  animation: connector-draw 220ms ease-out both;
+}
+
+@keyframes connector-draw {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

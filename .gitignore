@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+.output/
+dist/
+
+# Environment
+.env.local
+.env.*.local
+
+# Vite
+.vite/
+
+# Wrangler / Cloudflare
+.wrangler/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Bun
+bun.lock
+
+# TanStack generated
+src/routeTree.gen.ts
