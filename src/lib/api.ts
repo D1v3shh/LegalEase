@@ -285,15 +285,26 @@ export async function createDocument(
  * the correct Content-Type — no multipart form encoding.
  */
 export async function uploadToS3(uploadUrl: string, file: File): Promise<void> {
-  const response = await fetch(uploadUrl, {
-    method: "PUT",
-    headers: { "Content-Type": file.type },
-    body: file,
-  });
+  let response: Response;
+  try {
+    response = await fetch(uploadUrl, {
+      method: "PUT",
+      headers: { "Content-Type": file.type },
+      body: file,
+    });
+  } catch (err: unknown) {
+    // fetch only throws here when the browser blocked it (CORS) or the network failed
+    console.error("S3 request blocked or failed:", err);
+    throw new Error(
+      "Could not reach S3 (likely a CORS or bucket setting). Check the browser console.",
+    );
+  }
 
   if (!response.ok) {
+    const body = await response.text();
+    console.error("S3 error response:", response.status, body);
     throw new Error(
-      `S3 upload failed with status ${response.status.toString()}`,
+      `S3 upload failed (${response.status.toString()}): ${body.slice(0, 200)}`,
     );
   }
 }
