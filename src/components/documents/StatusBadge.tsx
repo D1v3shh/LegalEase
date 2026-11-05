@@ -1,6 +1,9 @@
 export type DocStatus = "complete" | "processing" | "failed";
 
-const map: Record<DocStatus, { label: string; icon: string; className: string }> = {
+const map: Record<
+  DocStatus,
+  { label: string; icon: string; className: string }
+> = {
   complete: {
     label: "Complete",
     icon: "✓",

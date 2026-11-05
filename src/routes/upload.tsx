@@ -60,7 +60,7 @@ function Upload() {
       // Step 1: Create document record in backend → get presigned S3 URL
       const { document_id, upload_url } = await createDocument(
         file.name,
-        file.type
+        file.type,
       );
 
       // Step 2: Upload the file directly to S3 via presigned PUT
@@ -70,9 +70,7 @@ function Upload() {
       navigate({ to: "/documents/$id", params: { id: document_id } });
     } catch (err: unknown) {
       const message =
-        err instanceof Error
-          ? err.message
-          : "Upload failed. Please try again.";
+        err instanceof Error ? err.message : "Upload failed. Please try again.";
       setError(message);
     } finally {
       setUploading(false);

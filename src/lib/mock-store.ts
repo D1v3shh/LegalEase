@@ -20,7 +20,12 @@ export type Doc = {
   clauses: Clause[];
 };
 
-export const STAGES = ["Uploaded", "Reading document", "Simplifying clauses", "Done"] as const;
+export const STAGES = [
+  "Uploaded",
+  "Reading document",
+  "Simplifying clauses",
+  "Done",
+] as const;
 
 let docs: Doc[] = [];
 const listeners = new Set<() => void>();

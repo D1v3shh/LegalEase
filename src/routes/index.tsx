@@ -2,36 +2,34 @@ import { useState } from "react";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { signIn, signUp, confirmSignUp, getCurrentUser } from "@/lib/auth";
 
-export const Route = createFileRoute("/")(
-  {
-    head: () => ({
-      meta: [
-        { title: "Sign in — LegalEase" },
-        {
-          name: "description",
-          content:
-            "Sign in to LegalEase to upload a lease, NDA, or contract and read it clause by clause in plain language.",
-        },
-        { property: "og:title", content: "Sign in — LegalEase" },
-        {
-          property: "og:description",
-          content: "Read any legal document clause by clause, in plain language.",
-        },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary" },
-      ],
-    }),
-    // If already signed in, redirect to dashboard
-    beforeLoad: async () => {
-      if (typeof window === "undefined") return; // skip auth check during SSR
-      const user = await getCurrentUser();
-      if (user) {
-        throw redirect({ to: "/dashboard" });
-      }
-    },
-    component: SignIn,
-  }
-);
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Sign in — LegalEase" },
+      {
+        name: "description",
+        content:
+          "Sign in to LegalEase to upload a lease, NDA, or contract and read it clause by clause in plain language.",
+      },
+      { property: "og:title", content: "Sign in — LegalEase" },
+      {
+        property: "og:description",
+        content: "Read any legal document clause by clause, in plain language.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
+  // If already signed in, redirect to dashboard
+  beforeLoad: async () => {
+    if (typeof window === "undefined") return; // skip auth check during SSR
+    const user = await getCurrentUser();
+    if (user) {
+      throw redirect({ to: "/dashboard" });
+    }
+  },
+  component: SignIn,
+});
 
 function SignIn() {
   const navigate = useNavigate();
@@ -70,7 +68,9 @@ function SignIn() {
       }
     } catch (err: unknown) {
       const message =
-        err instanceof Error ? err.message : "Something went wrong. Please try again.";
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.";
       setError(message);
     } finally {
       setLoading(false);
@@ -80,7 +80,9 @@ function SignIn() {
   return (
     <main className="flex min-h-screen items-center justify-center px-5 py-12">
       <div className="w-full max-w-sm">
-        <h1 className="font-display text-lg font-semibold tracking-tight">LegalEase</h1>
+        <h1 className="font-display text-lg font-semibold tracking-tight">
+          LegalEase
+        </h1>
         <form
           className="mt-6 rounded-md border border-rule bg-paper-raised p-6"
           onSubmit={handleSubmit}
@@ -96,9 +98,13 @@ function SignIn() {
           {mode === "confirm" ? (
             <>
               <p className="mt-3 text-xs text-muted-foreground">
-                We sent a verification code to <strong>{email}</strong>. Enter it below.
+                We sent a verification code to <strong>{email}</strong>. Enter
+                it below.
               </p>
-              <label className="mt-5 block text-xs font-medium" htmlFor="confirm-code">
+              <label
+                className="mt-5 block text-xs font-medium"
+                htmlFor="confirm-code"
+              >
                 Verification code
               </label>
               <input
@@ -115,7 +121,10 @@ function SignIn() {
             <>
               {mode === "up" && (
                 <>
-                  <label className="mt-5 block text-xs font-medium" htmlFor="name">
+                  <label
+                    className="mt-5 block text-xs font-medium"
+                    htmlFor="name"
+                  >
                     Name
                   </label>
                   <input
@@ -145,7 +154,10 @@ function SignIn() {
                 className="mt-1.5 w-full rounded-md border border-rule bg-paper px-3 py-2 text-xs"
               />
 
-              <label className="mt-4 block text-xs font-medium" htmlFor="password">
+              <label
+                className="mt-4 block text-xs font-medium"
+                htmlFor="password"
+              >
                 Password
               </label>
               <input
@@ -154,7 +166,9 @@ function SignIn() {
                 required
                 minLength={6}
                 maxLength={128}
-                autoComplete={mode === "in" ? "current-password" : "new-password"}
+                autoComplete={
+                  mode === "in" ? "current-password" : "new-password"
+                }
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
@@ -165,7 +179,10 @@ function SignIn() {
 
               {mode === "up" && (
                 <>
-                  <label className="mt-4 block text-xs font-medium" htmlFor="confirm-password">
+                  <label
+                    className="mt-4 block text-xs font-medium"
+                    htmlFor="confirm-password"
+                  >
                     Confirm password
                   </label>
                   <input

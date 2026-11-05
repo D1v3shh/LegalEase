@@ -53,7 +53,7 @@ export async function signIn(email: string, password: string): Promise<void> {
 export async function signUp(
   email: string,
   password: string,
-  name: string
+  name: string,
 ): Promise<void> {
   await amplifySignUp({
     username: email,
@@ -65,7 +65,7 @@ export async function signUp(
 /** Confirm sign-up with the verification code sent to the user's email. */
 export async function confirmSignUp(
   email: string,
-  code: string
+  code: string,
 ): Promise<void> {
   await amplifyConfirmSignUp({
     username: email,

@@ -38,7 +38,11 @@ export function Navbar({ showUpload = true }: { showUpload?: boolean }) {
             title="Profile"
             aria-label="Profile"
           >
-            <UserRound aria-hidden="true" className="size-4" strokeWidth={1.75} />
+            <UserRound
+              aria-hidden="true"
+              className="size-4"
+              strokeWidth={1.75}
+            />
           </span>
         </nav>
       </div>

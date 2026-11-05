@@ -129,7 +129,7 @@ export class ApiClientError extends Error {
   constructor(
     message: string,
     public readonly statusCode: number,
-    public readonly code?: string
+    public readonly code?: string,
   ) {
     super(message);
     this.name = "ApiClientError";
@@ -156,7 +156,7 @@ interface ApiFetchOptions {
  */
 export async function apiFetch<T>(
   path: string,
-  options: ApiFetchOptions = {}
+  options: ApiFetchOptions = {},
 ): Promise<T> {
   const { method = "GET", body, skipContentType = false } = options;
 
@@ -172,7 +172,7 @@ export async function apiFetch<T>(
     throw new ApiClientError(
       "Your session has expired. Please sign in again.",
       401,
-      "Unauthenticated"
+      "Unauthenticated",
     );
   }
 
@@ -199,7 +199,7 @@ export async function apiFetch<T>(
       throw new ApiClientError(
         "Your session has expired. Please sign in again.",
         401,
-        "Unauthenticated"
+        "Unauthenticated",
       );
     }
 
@@ -209,7 +209,7 @@ export async function apiFetch<T>(
     } catch {
       throw new ApiClientError(
         `Request failed (${response.status.toString()})`,
-        response.status
+        response.status,
       );
     }
 
@@ -217,7 +217,7 @@ export async function apiFetch<T>(
       throw new ApiClientError(
         errorBody.error.message,
         response.status,
-        errorBody.error.code
+        errorBody.error.code,
       );
     }
 
@@ -226,13 +226,13 @@ export async function apiFetch<T>(
       throw new ApiClientError(
         messages.join("; "),
         response.status,
-        "ValidationError"
+        "ValidationError",
       );
     }
 
     throw new ApiClientError(
       `Request failed (${response.status.toString()})`,
-      response.status
+      response.status,
     );
   }
 
@@ -246,10 +246,10 @@ export async function apiFetch<T>(
 /** GET /documents — paginated list of the current user's documents. */
 export async function listDocuments(
   limit = 20,
-  offset = 0
+  offset = 0,
 ): Promise<PaginatedDocuments> {
   return apiFetch<PaginatedDocuments>(
-    `/documents?limit=${limit.toString()}&offset=${offset.toString()}`
+    `/documents?limit=${limit.toString()}&offset=${offset.toString()}`,
   );
 }
 
@@ -266,7 +266,7 @@ export async function getClauses(id: string): Promise<ClauseResponse[]> {
 /** POST /documents — create a document record and get a presigned upload URL. */
 export async function createDocument(
   originalFilename: string,
-  contentType: string
+  contentType: string,
 ): Promise<CreateDocumentResponse> {
   return apiFetch<CreateDocumentResponse>("/documents", {
     method: "POST",
@@ -286,10 +286,7 @@ export async function createDocument(
  * by createDocument(). The file is sent as the raw request body with
  * the correct Content-Type — no multipart form encoding.
  */
-export async function uploadToS3(
-  uploadUrl: string,
-  file: File
-): Promise<void> {
+export async function uploadToS3(uploadUrl: string, file: File): Promise<void> {
   const response = await fetch(uploadUrl, {
     method: "PUT",
     headers: { "Content-Type": file.type },
@@ -298,7 +295,7 @@ export async function uploadToS3(
 
   if (!response.ok) {
     throw new Error(
-      `S3 upload failed with status ${response.status.toString()}`
+      `S3 upload failed with status ${response.status.toString()}`,
     );
   }
 }
