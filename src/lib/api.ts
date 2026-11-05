@@ -21,11 +21,9 @@ import { getIdToken, signOut } from "./auth";
  * During SSR, the full URL is used instead.
  */
 function resolveBaseUrl(): string {
-  // Browser: use the /api proxy (same-origin, no CORS)
-  if (typeof window !== "undefined") {
+  if (import.meta.env.DEV && typeof window !== "undefined") {
     return "/api";
   }
-  // Server-side: call the API directly
   const url = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
   return url.replace(/\/+$/, "");
 }
