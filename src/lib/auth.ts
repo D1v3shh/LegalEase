@@ -45,8 +45,22 @@ if (typeof window !== "undefined") {
 // ---------------------------------------------------------------------------
 
 /** Sign in with email + password (SRP flow, no client secret). */
+/** Sign in with email + password (SRP flow, no client secret). */
 export async function signIn(email: string, password: string): Promise<void> {
-  await amplifySignIn({ username: email, password });
+  try {
+    await amplifySignIn({ username: email, password });
+  } catch (err: unknown) {
+    // A stale session blocks a new sign-in; clear it and retry once.
+    if (
+      err instanceof Error &&
+      err.name === "UserAlreadyAuthenticatedException"
+    ) {
+      await amplifySignOut();
+      await amplifySignIn({ username: email, password });
+      return;
+    }
+    throw err;
+  }
 }
 
 /** Create a new account. Cognito sends a verification code to the email. */
